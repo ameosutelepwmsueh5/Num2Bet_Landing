@@ -29,7 +29,7 @@ export default function Footer() {
   
                     {/* LOGO — stays as-is */}
                     <Stack spacing={4}>
-                        <Image src={Logo} />
+                        <Image src={Logo} alt="NumBanco" />
                         <Text fontSize="sm" opacity={0.7} color="whiteAlpha.800">
                         Smart betting powered by data, fairness, and transparency.
                         </Text>

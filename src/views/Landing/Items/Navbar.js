@@ -51,6 +51,7 @@ export default function Navbar() {
                 width={scrolled ? "150px" : "140px"}
                 transition="width 0.3s ease"
                 cursor="pointer"
+                alt="NumBanco"
             />
 
             <Flex gap={6} align="center">

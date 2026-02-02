@@ -146,6 +146,7 @@ export default function Slide() {
                             w="100%"
                             objectFit="cover"
                             draggable={false}
+                            alt="NumBanco Slide"
                         />
                         <Box p={6}>
                             <Heading size="md" mb={2}>

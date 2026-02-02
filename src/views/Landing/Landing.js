@@ -74,12 +74,12 @@ export default function LandingPage() {
             >
                 <Box bgColor="rgba(0,34,85,0.65)">
                     <AnimatedSection duration={0.8}>
-                    <Navbar />
+                        <Navbar />
                     </AnimatedSection>
 
                     {/* Make sure Hero contains EXACTLY ONE <h1> */}
                     <AnimatedSection duration={0.8}>
-                    <Hero />
+                        <Hero />
                     </AnimatedSection>
                 </Box>
             </Box>
