@@ -11,7 +11,7 @@ import {
     Image
 } from "@chakra-ui/react";
 
-import logo from "assets/img/logo_Landing.png";
+import logo from "../../../assets/img/logo_Landing.png";
 
 export default function Navbar() {
     const dispatch = useDispatch();
