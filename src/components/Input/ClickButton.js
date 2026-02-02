@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react";
 import React from "react";
 
 function ClickButton(props) {
-    const { label, width, onClick, borderColor, mt, mb, disabled, color, to } = props;
+    const { label, width, onClick, borderColor, mt, mb, disabled, color } = props;
     return (
         <Button
             variant="solid"
