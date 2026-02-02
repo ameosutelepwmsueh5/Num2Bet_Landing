@@ -11,7 +11,6 @@ import Concept from "./Items/Concept";
 import Hero from "./Items/Hero";
 import Slide from "./Items/Slide.";
 import Price from "./Items/Price";
-import UserFeedbackSlider from "./Items/UserFeedback";
 import FAQs from "./Items/FAQs";
 import Footer from "./Items/Footer";
 import ScrollToTop from "./Items/ScrollToTop";
@@ -29,7 +28,6 @@ export default function LandingPage() {
             <AnimatedSection y={160} duration={0.6}><Slide /></AnimatedSection>
             <AnimatedSection y={160} duration={0.6}><Concept /></AnimatedSection>
             <AnimatedSection y={160} duration={0.6}><Price /></AnimatedSection>
-            <AnimatedSection y={160} duration={0.6}><UserFeedbackSlider /></AnimatedSection>
             <AnimatedSection y={160} duration={0.8}><FAQs /></AnimatedSection>
             <AnimatedSection duration={0.7}><Footer /></AnimatedSection>
             <ScrollToTop />
