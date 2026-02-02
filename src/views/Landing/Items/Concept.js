@@ -25,7 +25,7 @@ export default function Concept() {
             setIndex(tempIndex);
         }, 10000);
         return () => clearInterval(interval);
-    }, [concepts, index]);
+    }, [index]);
 
     const handleNext = () => {
         setDirection(1);
