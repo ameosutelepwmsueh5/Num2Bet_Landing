@@ -176,7 +176,7 @@ export default function Concept() {
                                 >
                                     <Image
                                         src={active.image}
-                                        alt="Lottery betting concept illustration"
+                                        alt={`NumBanco ${active.title} illustration`}
                                         loading="eager"
                                         w="100%"
                                         h="100%"

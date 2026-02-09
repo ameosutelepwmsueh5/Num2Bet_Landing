@@ -166,7 +166,7 @@ export default function Footer() {
                         align="flex-start"
                         direction={{ base: "column", md: "row" }}
                     >
-                        <Image src={Logo} loading="eager" h="44px" />
+                        <Image src={Logo} alt="NumBanco Logo" loading="eager" h="44px" />
                         <Stack spacing={4} maxW="4xl">
                             <Text fontSize="sm" color="whiteAlpha.800" lineHeight={1.8}>
                                 NumBanco is a modern number-based gaming platform built for speed, transparency, and smart play.

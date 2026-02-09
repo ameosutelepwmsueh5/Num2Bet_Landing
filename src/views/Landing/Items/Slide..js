@@ -181,6 +181,7 @@ export default function Slide() {
                                 >
                                     <Image
                                         src={slide.image}
+                                        alt={slide.title}
                                         w="100%"
                                         h="auto"
                                         objectFit="contain"
