@@ -1,18 +1,27 @@
 // Landing.js
-import React from "react";
-import { Box } from "@chakra-ui/react";
+import React, { Suspense, lazy } from "react";
+import { Box, Spinner, Center } from "@chakra-ui/react";
 import AnimatedSection from "components/AnimatedSection";
 
-// items
+// Critical above-fold components - load immediately
 import Navbar from "./Items/Navbar";
-import Concept from "./Items/Concept";
 import Hero from "./Items/Hero";
-import Slide from "./Items/Slide.";
-import Card from "./Items/Card";
-import Price from "./Items/Price";
-import FAQs from "./Items/FAQs";
-import Footer from "./Items/Footer";
-import ScrollToTop from "./Items/ScrollToTop";
+
+// Below-fold components - lazy load for better performance
+const Slide = lazy(() => import("./Items/Slide."));
+const Concept = lazy(() => import("./Items/Concept"));
+const Card = lazy(() => import("./Items/Card"));
+const Price = lazy(() => import("./Items/Price"));
+const FAQs = lazy(() => import("./Items/FAQs"));
+const Footer = lazy(() => import("./Items/Footer"));
+const ScrollToTop = lazy(() => import("./Items/ScrollToTop"));
+
+// Loading fallback component
+const LoadingFallback = () => (
+    <Center minH="200px">
+        <Spinner size="xl" color="#00d4ff" thickness="4px" />
+    </Center>
+);
 
 
 
@@ -37,13 +46,19 @@ export default function LandingPage() {
             
             {/* FEATURES / TILES */}
             <Box bg="#ffffff">
-                <AnimatedSection y={160} duration={0.6}><Slide /></AnimatedSection>
+                <Suspense fallback={<LoadingFallback />}>
+                    <AnimatedSection y={160} duration={0.6}><Slide /></AnimatedSection>
+                </Suspense>
             </Box>
 
             {/* CONCEPT / ADVANTAGE */}
             <Box>
-                <AnimatedSection y={160} duration={0.6}><Concept /></AnimatedSection>
-                <AnimatedSection y={160} duration={0.6}><Card /></AnimatedSection>
+                <Suspense fallback={<LoadingFallback />}>
+                    <AnimatedSection y={160} duration={0.6}><Concept /></AnimatedSection>
+                </Suspense>
+                <Suspense fallback={<LoadingFallback />}>
+                    <AnimatedSection y={160} duration={0.6}><Card /></AnimatedSection>
+                </Suspense>
             </Box>
 
             {/* PRICE */}
@@ -69,7 +84,9 @@ export default function LandingPage() {
                     zIndex: 0,
                 }}
             >
-                <AnimatedSection y={160} duration={0.6}><Price /></AnimatedSection>
+                <Suspense fallback={<LoadingFallback />}>
+                    <AnimatedSection y={160} duration={0.6}><Price /></AnimatedSection>
+                </Suspense>
             </Box>
 
             {/* FAQ */}
@@ -94,15 +111,21 @@ export default function LandingPage() {
                     zIndex: 0,
                 }}
             >
-                <AnimatedSection y={160} duration={0.8}><FAQs /></AnimatedSection>
+                <Suspense fallback={<LoadingFallback />}>
+                    <AnimatedSection y={160} duration={0.8}><FAQs /></AnimatedSection>
+                </Suspense>
             </Box>
 
             {/* FOOTER */}
             <Box bg="#ffffff">
-                <AnimatedSection duration={0.7}><Footer /></AnimatedSection>
+                <Suspense fallback={<LoadingFallback />}>
+                    <AnimatedSection duration={0.7}><Footer /></AnimatedSection>
+                </Suspense>
             </Box>
 
-            <ScrollToTop />
+            <Suspense fallback={null}>
+                <ScrollToTop />
+            </Suspense>
         </Box>
     );
 }

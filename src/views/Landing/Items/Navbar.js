@@ -52,6 +52,8 @@ export default function Navbar() {
                 transition="width 0.3s ease"
                 cursor="pointer"
                 alt="NumBanco Logo"
+                loading="eager"
+                fetchPriority="high"
             />
 
             <Flex gap={6} align="center">

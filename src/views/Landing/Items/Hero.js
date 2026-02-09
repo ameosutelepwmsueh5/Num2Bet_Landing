@@ -205,6 +205,8 @@ export default function Hero() {
                             <Image
                                 src={segment.image}
                                 alt="NumBanco Hero Image"
+                                loading="eager"
+                                fetchPriority="high"
                                 w="100%"
                                 h="100%"
                                 objectFit="cover"
