@@ -1,5 +1,5 @@
 // Hero.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     Flex,
     Text,
@@ -9,72 +9,244 @@ import {
     Heading,
     Box,
     Image,
+    IconButton,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import ClickButton from "components/Input/ClickButton";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { motion, AnimatePresence } from "framer-motion";
+import { NavLink as RouterLink } from "react-router-dom";
+import LandingAD1 from "assets/img/LandingAD/1.png";
+import LandingAD2 from "assets/img/LandingAD/2.png";
+import LandingAD3 from "assets/img/LandingAD/3.png";
+import LandingAD4 from "assets/img/LandingAD/4.png";
 import manImage from "assets/img/man.png";
+import heroImage2 from "assets/img/SignInSlide/1.png";
+import heroImage3 from "assets/img/SignInSlide/2.png";
+import heroImage4 from "assets/img/SignInSlide/3.png";
 
-const MotionStack = motion(Stack);
-const MotionText = motion(Text);
-const MotionHeading = motion(Heading);
-const MotionBox = motion(Box);
+const SEGMENT_DURATION_MS = 7000;
+const SLIDE_DURATION_S = 0.6;
 
-const containerVariant = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15 } } };
-const itemVariant = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } };
-const imageVariant = { hidden: { opacity: 0, y: 40, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: "easeOut", delay: 0.4 } } };
+const segments = [
+    {
+        image: LandingAD4,
+        label: "Where Numbers Beat Luck",
+        heading: "Bet With Clarity.\nWin With Confidence.",
+        subtext: "Enjoy the best betting anytime, anywhere.",
+    },
+    {
+        image: LandingAD1,
+        label: "Fast & Fair",
+        heading: "30-Second Draws.\nProvably Fair.",
+        subtext: "Short rounds and transparent results.",
+    },
+    {
+        image: LandingAD3,
+        label: "Play Smarter",
+        heading: "Choose Your Numbers.\nOwn Your Luck.",
+        subtext: "Pick your tickets and play your way.",
+    },
+    {
+        image: LandingAD2,
+        label: "numbanco.io",
+        heading: "Real-Time Results.\nInstant Excitement.",
+        subtext: "See outcomes live as they happen.",
+    },
+];
+
+const textVariants = {
+    enter: { x: "-100vw", opacity: 0.6 },
+    center: { x: 0, opacity: 1 },
+    exit: { x: "-100vw", opacity: 0.6 },
+};
+
+const imageVariants = {
+    enter: { x: "100vw", opacity: 0.6 },
+    center: { x: 0, opacity: 1 },
+    exit: { x: "100vw", opacity: 0.6 },
+};
+
+const transition = { duration: SLIDE_DURATION_S, ease: "easeInOut" };
 
 export default function Hero() {
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((i) => (i + 1) % segments.length);
+        }, SEGMENT_DURATION_MS);
+        return () => clearInterval(interval);
+    }, []);
+
+    const prev = () =>
+        setActiveIndex((i) => (i - 1 + segments.length) % segments.length);
+    const next = () =>
+        setActiveIndex((i) => (i + 1) % segments.length);
+
+    const segment = segments[activeIndex];
+
     return (
-        <Container maxW="7xl" pt={64} pb={52} position="relative">
-            <MotionStack spacing={6} maxW="xl" zIndex={10} variants={containerVariant} initial="hidden" animate="show">
-                <MotionText variants={itemVariant} letterSpacing="widest" fontSize="sm" opacity={0.8}>
-                    Where Numbers Beat Luck
-                </MotionText>
+        <Container
+            maxW="100vw"
+            pt={{ base: 30, md: 36 }}
+            pb={{ base: 24, md: 30 }}
+            position="relative"
+            px={{ base: 6, md: 14, lg: 18 }}
+            overflow="hidden"
+        >
+            <Flex
+                position="relative"
+                direction={{ base: "column", md: "row" }}
+                align={{ base: "center", md: "center" }}
+                justify="center"
+                wrap="wrap"
+                gap={{ base: 10, md: 10 }}
+                minH={{ base: "640px", md: "580px" }}
+                zIndex={1}
+            >
+                {/* Text block — same height as image so bottoms align */}
+                <Box
+                    flex="1"
+                    minW={{ base: "100%", md: "280px" }}
+                    maxW="xl"
+                    zIndex={10}
+                    position="relative"
+                    minH={{ base: "auto", md: "360px", lg: "420px" }}
+                    h={{ base: "auto", md: "360px", lg: "420px" }}
+                    ml={{ base: 0, md: 6, lg: 10 }}
+                >
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={`text-${activeIndex}`}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            variants={textVariants}
+                            transition={transition}
+                            style={{
+                                position: "absolute",
+                                left: 0,
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                        >
+                            <Stack spacing={6} align={{ base: "center", md: "flex-start" }} textAlign={{ base: "center", md: "left" }} flex="1" justify="center">
+                                <Text letterSpacing="widest" fontSize="sm" opacity={0.9} color="whiteAlpha.900">
+                                    {segment.label}
+                                </Text>
+                                <Heading
+                                    fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+                                    lineHeight={1.1}
+                                    color="white"
+                                    whiteSpace="pre-line"
+                                >
+                                    {segment.heading}
+                                </Heading>
+                                <Text opacity={0.9} color="whiteAlpha.800">{segment.subtext}</Text>
+                                <Flex gap={4} flexWrap="wrap" justify={{ base: "center", md: "flex-start" }} mt="auto">
+                                    <Button
+                                        bg="#00d4ff"
+                                        color="black"
+                                        px={10}
+                                        borderRadius="full"
+                                        _hover={{ bg: "#f7d260", transform: "translateY(-2px)" }}
+                                        as={RouterLink}
+                                        to="/auth/signup"
+                                    >
+                                        Try For Free
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        borderColor="white"
+                                        color="white"
+                                        px={10}
+                                        borderRadius="full"
+                                        _hover={{ bg: "whiteAlpha.200" }}
+                                        onClick={() =>
+                                            document.getElementById("FAQs")?.scrollIntoView({ behavior: "smooth" })
+                                        }
+                                    >
+                                        Learn More
+                                    </Button>
+                                </Flex>
+                            </Stack>
+                        </motion.div>
+                    </AnimatePresence>
+                </Box>
 
-                <MotionHeading variants={itemVariant} fontSize="5xl" lineHeight={1.1} bgGradient="linear(to-r, cyan.400, blue.500)" bgClip="text">
-                    Bet With Clarity.<br />Win With Confidence.
-                </MotionHeading>
+                {/* Image block — slides in from right, out to right */}
+                <Box
+                    flex="0 0 auto"
+                    position="relative"
+                    zIndex={1}
+                    w={["260px", "340px", "420px", "580px"]}
+                    h={["260px", "340px", "420px", "580px"]}
+                    mr={{ base: 0, md: 6, lg: 10 }}
+                    ml={{ base: 0, md: -2, lg: -4 }}
+                >
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={`image-${activeIndex}`}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            variants={imageVariants}
+                            transition={transition}
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Image
+                                src={segment.image}
+                                alt="NumBanco Hero Image"
+                                w="100%"
+                                h="100%"
+                                objectFit="cover"
+                                borderRadius="12px"
+                                boxShadow="0 12px 28px rgba(0,0,0,0.2)"
+                            />
+                        </motion.div>
+                    </AnimatePresence>
+                </Box>
+            </Flex>
 
-                <MotionText variants={itemVariant} opacity={0.85}>
-                    Enjoy the best betting anytime, anywhere.
-                </MotionText>
-
-                <Flex variants={itemVariant} gap={4}>
-                    <ClickButton
-                        width="200px"
-                        mt="0px"
-                        borderColor="cyan.500"
-                        mb="0"
-                        bg="cyan.500"
-                        onClick={() => { document.getElementById("Footer")?.scrollIntoView({ behavior: "smooth" }); }}
-                        label="Contact Us"
-                    />
-                    <Button
-                        variant="solid"
-                        fontSize='15px'
-                        type='button'
-                        maxW='350px'
-                        alignSelf="center"
-                        width="200px"
-                        h='45'
-                        color="white"
-                        mt='20px'
-                        mb='20px'
-                        bgGradient="linear(to-r, cyan.400, blue.500)"
-                        colorScheme="blue"
-                        boxShadow="0 8px 24px rgba(0,170,255,0.35)"
-                        _hover={{ bgGradient: "linear(to-r, cyan.500, blue.600)", transform: "translateY(-2px)", boxShadow: "0 12px 32px rgba(0,170,255,0.45)" }}
-                        _active={{ transform: "translateY(0px)", boxShadow: "md" }}
-                        onClick={() => { document.getElementById("FAQs")?.scrollIntoView({ behavior: "smooth" }); }}
-                    >
-                        FAQs
-                    </Button>
-                </Flex>
-            </MotionStack>
-
-            <MotionBox position="absolute" bottom="-100" right="0" transformOrigin="bottom right" zIndex={1} variants={imageVariant} initial="hidden" animate="show">
-                <Image src={manImage} zIndex={0} alt="Celebrating man" boxSize={["320px", "500px", "620px"]} objectFit="contain" />
-            </MotionBox>
+            {/* Side arrows */}
+            <IconButton
+                aria-label="Previous"
+                icon={<ChevronLeftIcon boxSize={7} />}
+                onClick={prev}
+                position="absolute"
+                left={{ base: "18px", md: "28px" }}
+                top="50%"
+                transform="translateY(-50%)"
+                bg="rgba(0,0,0,0.18)"
+                color="white"
+                border="1px solid rgba(255,255,255,0.35)"
+                _hover={{ bg: "rgba(0,0,0,0.28)" }}
+                rounded="full"
+                zIndex={2}
+            />
+            <IconButton
+                aria-label="Next"
+                icon={<ChevronRightIcon boxSize={7} />}
+                onClick={next}
+                position="absolute"
+                right={{ base: "18px", md: "28px" }}
+                top="50%"
+                transform="translateY(-50%)"
+                bg="rgba(0,0,0,0.18)"
+                color="white"
+                border="1px solid rgba(255,255,255,0.35)"
+                _hover={{ bg: "rgba(0,0,0,0.28)" }}
+                rounded="full"
+                zIndex={2}
+            />
         </Container>
     );
 }

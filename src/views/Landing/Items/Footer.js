@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
 
@@ -10,11 +11,8 @@ import {
     Text,
     Image,
     Heading,
-    Input,
-    Button,
     Flex,
 } from "@chakra-ui/react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 import tronIcon from "assets/img/tron.png"
 import bscIcon from "assets/img/bsc.png"
@@ -22,38 +20,56 @@ import ethereumIcon from "assets/img/ethereum.png"
 import Logo from "assets/img/logo_Landing.png"
 
 export default function Footer() {
+    const topCurveH = 140;
+    const dispatch = useDispatch();
     return (
-        <Box bg="#00122f" color="white" pt={20} pb={10}>
+        <Box
+            bg="linear-gradient(180deg, #0b0f14 0%, #05070a 100%)"
+            color="white"
+            // pt={20} 
+            pb={10}
+            position="relative"
+            overflow="hidden"
+            pt={{ base: topCurveH + 32, md: topCurveH + 44 }}
+            // pb={{ base: -12, md: -20 }}
+            _before={{
+                content: '""',
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                height: `${topCurveH}px`,
+                // White curve "cut-in" over black background
+                background: "#ffffff",
+                // Invert curve direction: curve sits on TOP edge
+                clipPath: "ellipse(60% 75% at 50% 0%)",
+                pointerEvents: "none",
+                zIndex: 0,
+            }}
+        >
             <Container id="Footer" maxW="7xl">
-                <SimpleGrid columns={{ base: 1, xl: 5 }} spacing={10}>
-  
-                    {/* LOGO — stays as-is */}
-                    <Stack spacing={4}>
-                        <Image src={Logo} alt="NumBanco" />
-                        <Text fontSize="sm" opacity={0.7} color="whiteAlpha.800">
-                        Smart betting powered by data, fairness, and transparency.
-                        </Text>
-                    </Stack>
-
+                <SimpleGrid columns={{ base: 1 }} spacing={10}>
                     {/* RIGHT SIDE — responsive sections */}
                     <SimpleGrid
                         columns={{ base: 1, sm: 1, md: 4 }}
                         spacing={10}
-                        gridColumn={{ base: "1 / -1", xl: "2 / -1" }}
                     >
                         {/* BET CONCEPT */}
                         <Stack spacing={3}>
-                            <Heading size="sm" color="cyan.400">Bet Concept</Heading>
-                            {["Fairness", "Bet Method", "Reward", "Affiliation"].map((item) => (
+                            <Heading size="md" color="cyan.300" fontWeight="bold">
+                                Bet Concept
+                            </Heading>
+                            {["Fairness", "Bet Method", "Reward", "Affiliation"].map((item, index) => (
                                 <Text
                                 key={item}
                                 fontSize="sm"
-                                opacity={0.75}
+                                color="whiteAlpha.700"
                                 cursor="pointer"
-                                _hover={{ opacity: 1, color: "cyan.300" }}
-                                onClick={() =>
-                                    document.getElementById("bet-concept")?.scrollIntoView({ behavior: "smooth" })
-                                }
+                                _hover={{ color: "cyan.200" }}
+                                onClick={() => {
+                                    document.getElementById("bet-concept")?.scrollIntoView({ behavior: "smooth" });
+                                    dispatch({ type: "SET_SLIDE_INDEX", payload: index });
+                                }}
                                 >
                                 {item}
                                 </Text>
@@ -62,92 +78,116 @@ export default function Footer() {
 
                         {/* HELP */}
                         <Stack spacing={3}>
-                        <Heading size="sm" color="cyan.400">Help</Heading>
-                        <Text
-                            fontSize="sm"
-                            opacity={0.75}
-                            cursor="pointer"
-                            _hover={{ opacity: 1, color: "cyan.300" }}
-                            onClick={() =>
-                            document.getElementById("FAQs")?.scrollIntoView({ behavior: "smooth" })
-                            }
-                        >
-                            FAQs
-                        </Text>
-                        <Link
-                            as={RouterLink}
-                            to="/auth/privacy-policy"
-                            target="_blank"
-                            fontSize="sm"
-                            opacity={0.75}
-                            _hover={{ opacity: 1, color: "cyan.300" }}
-                        >
-                            Terms & Policy
-                        </Link>
-                        <Text fontSize="sm" opacity={0.75} _hover={{ opacity: 1, color: "cyan.300" }}>
-                            Contact Us
-                        </Text>
+                            <Heading size="md" color="cyan.300" fontWeight="bold">
+                                Help
+                            </Heading>
+                            <Text
+                                fontSize="sm"
+                                color="whiteAlpha.700"
+                                cursor="pointer"
+                                _hover={{ color: "cyan.200" }}
+                                onClick={() =>
+                                    document.getElementById("FAQs")?.scrollIntoView({ behavior: "smooth" })
+                                }
+                            >
+                                FAQs
+                            </Text>
+                            <Link
+                                as={RouterLink}
+                                to="/auth/privacy-policy"
+                                target="_blank"
+                                fontSize="sm"
+                                color="whiteAlpha.700"
+                                _hover={{ color: "cyan.200" }}
+                            >
+                                Terms & Policy
+                            </Link>
+                            <Text fontSize="sm" color="whiteAlpha.700" _hover={{ color: "cyan.200" }}>
+                                Contact Us
+                            </Text>
                         </Stack>
 
                         {/* CONTACT US */}
                         <Stack spacing={3}>
-                        <Heading size="sm" color="cyan.400">Contact Us</Heading>
-                        {[
-                            "Telegram: @Num2Bet_Provider",
-                            "Email: glavasandrej5@gmail.com",
-                            "Zangi: 15-8363-9905",
-                            "WhatsApp: +1 820 201 2952",
-                        ].map((item) => (
-                            <Text
-                            key={item}
-                            fontSize="sm"
-                            opacity={0.75}
-                            _hover={{ opacity: 1, color: "cyan.300" }}
-                            >
-                            {item}
-                            </Text>
-                        ))}
+                            <Heading size="md" color="cyan.300" fontWeight="bold">
+                                Contact Us
+                            </Heading>
+                            {[
+                                "Telegram: @NumBanco_Provider",
+                                "Email: glavasandrej5@gmail.com",
+                                "Zangi: 15-8363-9905",
+                                "WhatsApp: +1 820 201 2952",
+                            ].map((item) => (
+                                <Text
+                                key={item}
+                                cursor="pointer"
+                                fontSize="sm"
+                                color="whiteAlpha.700"
+                                _hover={{ color: "cyan.200" }}
+                                >
+                                {item}
+                                </Text>
+                            ))}
                         </Stack>
 
-                        {/* SUPPORT TO EMAIL */}
-                        <Stack spacing={4}>
-                        <Heading size="sm" color="cyan.400">Support to Email</Heading>
-                        <Text fontSize="sm" opacity={0.7} color="whiteAlpha.800">
-                            Receive betting insights, updates, and exclusive rewards directly in your inbox.
-                        </Text>
-
-                        <Box bg="whiteAlpha.100" p={3} borderRadius="xl">
-                            <Flex gap={2}>
-                            <Input
-                                placeholder="Enter your email"
-                                bg="transparent"
-                                border="none"
-                                fontSize="sm"
-                                _focus={{ outline: "none" }}
-                            />
-                            <Button
-                                bgGradient="linear(to-r, cyan.400, blue.500)"
-                                _hover={{
-                                bgGradient: "linear(to-r, cyan.500, blue.600)",
-                                transform: "translateY(-2px)",
-                                }}
-                                transition="all 0.25s ease"
-                                px={4}
-                                borderRadius="lg"
-                            >
-                                <ArrowForwardIcon boxSize={5} color="white" />
-                            </Button>
-                            </Flex>
-                        </Box>
+                        {/* OUR PROMISE */}
+                        <Stack spacing={3}>
+                            <Heading size="md" color="cyan.300" fontWeight="bold">
+                                Our Promise
+                            </Heading>
+                            {[
+                                "Fast rounds and smooth play.",
+                                "Provably fair, transparent results.",
+                                "Secure, responsible experience.",
+                            ].map((item) => (
+                                <Text
+                                    key={item}
+                                    fontSize="sm"
+                                    color="whiteAlpha.700"
+                                    _hover={{ color: "cyan.200" }}
+                                >
+                                    {item}
+                                </Text>
+                            ))}
                         </Stack>
 
                     </SimpleGrid>
                 </SimpleGrid>
 
+                {/* LEGAL / DESCRIPTION */}
+                <Box
+                    mt={12}
+                    pt={8}
+                    borderTop="1px solid"
+                    borderColor="whiteAlpha.200"
+                >
+                    <Flex
+                        gap={8}
+                        align="flex-start"
+                        direction={{ base: "column", md: "row" }}
+                    >
+                        <Image src={Logo} loading="eager" h="44px" />
+                        <Stack spacing={4} maxW="4xl">
+                            <Text fontSize="sm" color="whiteAlpha.800" lineHeight={1.8}>
+                                NumBanco is a modern number-based gaming platform built for speed, transparency, and smart play.
+                                We deliver fast-paced rounds, provably fair systems, and a seamless crypto experience designed for players who value simplicity and control.
+                                Choose your numbers from 1–100, play your strategy, and enjoy a platform focused on fairness and responsible entertainment.
+                            </Text>
+                            <Text fontSize="sm" color="whiteAlpha.800" lineHeight={1.8}>
+                                By accessing and using NumBanco.io, you confirm that you have read, understood, and agreed to be legally bound by our Terms of Service and Responsible Play Policy.
+                                Players are encouraged to participate responsibly and in accordance with applicable local laws.
+                            </Text>
+                            <Text fontSize="sm" color="whiteAlpha.800" lineHeight={1.8}>
+                                NumBanco operates as a digital number game platform utilizing cryptographic verification mechanisms.
+                                Gameplay does not constitute financial trading, investment activity, or financial advice.
+                            </Text>
+                        </Stack>
+                    </Flex>
+                </Box>
 
                 {/* BOTTOM BAR */}
                 <Flex
-                    mt={16}
+                    mt={10}
                     pt={6}
                     borderTop="1px solid"
                     borderColor="whiteAlpha.200"
@@ -158,14 +198,14 @@ export default function Footer() {
                     {/* LEFT SIDE */}
                     <Flex align="center" gap={3} flexWrap="wrap">
                         <Text fontSize="xs" opacity={0.6}>
-                            © {new Date().getFullYear()} Num2Bet. All rights reserved.
+                            © {new Date().getFullYear()} NumBanco. ALL RIGHTS RESERVED. NumBanco is operated by numbanco.io
                         </Text>
 
                         {/* NETWORK ICONS */}
                         <Flex align="center" ml={2}>
-                            <Image src={tronIcon} alt="Tron" h="26px" zIndex={3} />
-                            <Image src={ethereumIcon} alt="Ethereum" h="30px" ml="-10px" zIndex={4} />
-                            <Image src={bscIcon} alt="BSC" h="26px" ml="-10px" zIndex={5} />
+                            <Image src={tronIcon} alt="Tron" loading="eager" h="26px" zIndex={3} />
+                            <Image src={ethereumIcon} alt="Ethereum" loading="eager" h="30px" ml="-10px" zIndex={4} />
+                            <Image src={bscIcon} alt="BSC" loading="eager" h="26px" ml="-10px" zIndex={5} />
                         </Flex>
                     </Flex>
 

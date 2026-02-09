@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Flex,
   Text,
-  Button,
   Image,
   Container,
   Heading,
@@ -20,146 +19,187 @@ import slideImage8 from "assets/img/Ad/Casino.png";
 
 export default function Slide() {
     const slideWidth = 360;
-    const transitionMs = 500;
+    const autoScrollRef = useRef(null);
+    const sliderRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const [dragStartX, setDragStartX] = useState(0);
+    const [startScrollLeft, setStartScrollLeft] = useState(0);
+    const scrollSpeed = 0.6; // px per tick (16ms)
 
     const baseSlides = [
         { title: "Fast draw period and fair draw", desc: "Our site's betting time is very short at 30 seconds and we use a fair draw method.", image: slideImage1 },
         { title: "Very high winning rate", desc: "Our site's winning rate is 66%, which is much higher than other sites.", image: slideImage2 },
         { title: "Up to $100 Daily Loot", desc: "You can farm up to $100 in daily loot.", image: slideImage3 },
-        { title: "Reward", desc: "You can get back 1% of the money you put into betting as a reward.", image: slideImage4 },
+        { title: "Reward", desc: "You can get back 2% of the money you put into betting as a reward.", image: slideImage4 },
         { title: "Secure Privacy and Earning", desc: "The site strictly protects users' personal information and earnings.", image: slideImage5 },
         { title: "Anonymity Betting Game", desc: "Our site is a thorough Anonymity betting game site.", image: slideImage7 },
         { title: "GBO license with Casino BIC operation", desc: "Play with confidence on a licensed platform designed for fairness and reliability.", image: slideImage8 },
         { title: "Up to 5% affiliate Earning", desc: "With our affiliation program, you earn 1–5% of your referrals’ deposits automatically — at no cost to them.", image: slideImage6 },
     ];
 
-    /* 🔁 Repeat slides to form an endless strip */
-    const REPEAT = 5; // more = safer
-    const slides = Array(REPEAT).fill(baseSlides).flat();
+    /* 🔁 Duplicate slides for seamless loop */
+    const slides = [...baseSlides, ...baseSlides];
 
-    const middleCopyStart = Math.floor(REPEAT / 2) * baseSlides.length;
-
-    const [index, setIndex] = useState(middleCopyStart);
-    const [animate, setAnimate] = useState(true);
-
-    /* ---------------- Navigation ---------------- */
-    const next = () => {
-        setAnimate(true);
-        setIndex((i) => i + 1);
-    };
-
-    const prev = () => {
-        setAnimate(true);
-        setIndex((i) => i - 1);
-    };
-
-    /* ---------------- Recenter Logic ---------------- */
     useEffect(() => {
-        const buffer = baseSlides.length;
+        const slider = sliderRef.current;
+        if (!slider) return;
 
-        if (index < buffer) {
-        setTimeout(() => {
-            setAnimate(false);
-            setIndex(index + baseSlides.length * (REPEAT - 2));
-        }, transitionMs);
-        }
+        autoScrollRef.current = window.setInterval(() => {
+            if (isDragging || isPaused) return;
+            const loopPoint = slider.scrollWidth / 2;
+            if (loopPoint <= 0) return;
+            const next = slider.scrollLeft + scrollSpeed;
+            slider.scrollLeft = next >= loopPoint ? next - loopPoint : next;
+        }, 16);
 
-        if (index > slides.length - buffer) {
-        setTimeout(() => {
-            setAnimate(false);
-            setIndex(index - baseSlides.length * (REPEAT - 2));
-        }, transitionMs);
-        }
-    }, [index, slides.length, baseSlides.length]);
+        return () => {
+            if (autoScrollRef.current) {
+                window.clearInterval(autoScrollRef.current);
+            }
+        };
+    }, [isDragging, isPaused, scrollSpeed, slides.length]);
 
-    /* ---------------- Drag Support ---------------- */
-    const [dragStart, setDragStart] = useState(null);
-
-    const handleDragStart = (x) => setDragStart(x);
-    const handleDragEnd = (x) => {
-        if (dragStart === null) return;
-        const diff = dragStart - x;
-
-        if (diff > 80) next();
-        if (diff < -80) prev();
-
-        setDragStart(null);
-  };
+    useEffect(() => {
+        const handlePointerUp = () => setIsDragging(false);
+        window.addEventListener("mouseup", handlePointerUp);
+        window.addEventListener("touchend", handlePointerUp);
+        window.addEventListener("touchcancel", handlePointerUp);
+        return () => {
+            window.removeEventListener("mouseup", handlePointerUp);
+            window.removeEventListener("touchend", handlePointerUp);
+            window.removeEventListener("touchcancel", handlePointerUp);
+        };
+    }, []);
 
     return (
-        <Container maxW="7xl" py={20}>
-            {/* HEADER */}
-            <Flex justify="space-between" align="center" mb={8}>
-                <Heading>Why Bet With Num2Bet</Heading>
-                <Flex gap={3}>
-                    <Button
-                        onClick={prev}
-                        borderRadius="full"
-                        bg="whiteAlpha.100"
-                        backdropFilter="blur(10px)"
-                        _hover={{ bg: "whiteAlpha.200", transform: "translateY(-2px)" }}
-                    >
-                        ◀
-                    </Button>
-                    <Button
-                        onClick={next}
-                        borderRadius="full"
-                        bg="whiteAlpha.100"
-                        backdropFilter="blur(10px)"
-                        _hover={{ bg: "whiteAlpha.200", transform: "translateY(-2px)" }}
-                    >
-                        ▶
-                    </Button>
+        <Box bg="#ffffff">
+            <Container maxW="7xl" py={20}>
+                {/* HEADER */}
+                <Flex justify="flex-start" align="center" mb={8}>
+                    <Heading color="#0b1f3a">Why Bet With NumBanco</Heading>
                 </Flex>
-            </Flex>
 
-            {/* SLIDER */}
-            <Box overflow="hidden">
-                <Flex
-                    gap={6}
-                    cursor="grab"
-                    transform={`translateX(-${index * slideWidth}px)`}
-                    transition={
-                        animate
-                        ? `transform ${transitionMs}ms cubic-bezier(0.4,0,0.2,1)`
-                        : "none"
-                    }
-                    onMouseDown={(e) => handleDragStart(e.clientX)}
-                    onMouseUp={(e) => handleDragEnd(e.clientX)}
-                    onMouseLeave={(e) => dragStart && handleDragEnd(e.clientX)}
-                    onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
-                    onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
+                {/* SLIDER */}
+                <Box
+                    position="relative"
+                    overflow="visible"
+                    _before={{
+                        content: '""',
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: "120px",
+                        bgGradient: "linear(to-r, #ffffff 0%, rgba(255,255,255,0) 100%)",
+                        pointerEvents: "none",
+                        zIndex: 2,
+                    }}
+                    _after={{
+                        content: '""',
+                        position: "absolute",
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: "120px",
+                        bgGradient: "linear(to-l, #ffffff 0%, rgba(255,255,255,0) 100%)",
+                        pointerEvents: "none",
+                        zIndex: 2,
+                    }}
                 >
-                {slides.map((slide, i) => (
                     <Box
-                        key={i}
-                        minW={`${slideWidth}px`}
-                        bg="rgba(0,0,0,0.4)"
-                        borderRadius="2xl"
-                        overflow="hidden"
-                        _hover={{ transform: "translateY(-6px)" }}
-                        transition="all 0.25s ease"
+                        ref={sliderRef}
+                        overflowX="auto"
+                        overflowY="visible"
+                        py={4}
+                        cursor={isDragging ? "grabbing" : "grab"}
+                        userSelect="none"
+                        sx={{
+                            scrollbarWidth: "none",
+                            msOverflowStyle: "none",
+                            "&::-webkit-scrollbar": {
+                                display: "none",
+                            },
+                        }}
+                        onMouseDown={(e) => {
+                            if (!sliderRef.current) return;
+                            setIsDragging(true);
+                            setDragStartX(e.pageX - sliderRef.current.offsetLeft);
+                            setStartScrollLeft(sliderRef.current.scrollLeft);
+                        }}
+                        onMouseMove={(e) => {
+                            if (!isDragging || !sliderRef.current) return;
+                            e.preventDefault();
+                            const x = e.pageX - sliderRef.current.offsetLeft;
+                            const walk = x - dragStartX;
+                            const loopPoint = sliderRef.current.scrollWidth / 2;
+                            let next = startScrollLeft - walk;
+                            if (loopPoint > 0) {
+                                if (next < 0) next += loopPoint;
+                                if (next >= loopPoint) next -= loopPoint;
+                            }
+                            sliderRef.current.scrollLeft = next;
+                        }}
+                        onTouchStart={(e) => {
+                            if (!sliderRef.current) return;
+                            setIsDragging(true);
+                            setDragStartX(e.touches[0].pageX - sliderRef.current.offsetLeft);
+                            setStartScrollLeft(sliderRef.current.scrollLeft);
+                        }}
+                        onTouchMove={(e) => {
+                            if (!isDragging || !sliderRef.current) return;
+                            const x = e.touches[0].pageX - sliderRef.current.offsetLeft;
+                            const walk = x - dragStartX;
+                            const loopPoint = sliderRef.current.scrollWidth / 2;
+                            let next = startScrollLeft - walk;
+                            if (loopPoint > 0) {
+                                if (next < 0) next += loopPoint;
+                                if (next >= loopPoint) next -= loopPoint;
+                            }
+                            sliderRef.current.scrollLeft = next;
+                        }}
                     >
-                        <Image
-                            src={slide.image}
-                            h="240px"
-                            w="100%"
-                            objectFit="cover"
-                            draggable={false}
-                            alt="NumBanco Slide"
-                        />
-                        <Box p={6}>
-                            <Heading size="md" mb={2}>
-                            {slide.title}
-                            </Heading>
-                            <Text fontSize="sm" opacity={0.8}>
-                            {slide.desc}
-                            </Text>
-                        </Box>
+                        <Flex
+                            gap={6}
+                            w="max-content"
+                        >
+                            {slides.map((slide, i) => (
+                                <Box
+                                    key={i}
+                                    w={`${slideWidth}px`}
+                                    minW={`${slideWidth}px`}
+                                    maxW={`${slideWidth}px`}
+                                    bg="#ffffff"
+                                    borderRadius="2xl"
+                                    overflow="hidden"
+                                    border="1px solid #e6edf5"
+                                    // boxShadow="0 18px 32px rgba(15, 23, 42, 0.12)"
+                                    _hover={{ transform: "scale(1.03)" }}
+                                    onMouseEnter={() => setIsPaused(true)}
+                                    onMouseLeave={() => setIsPaused(false)}
+                                    transition="all 0.25s ease"
+                                >
+                                    <Image
+                                        src={slide.image}
+                                        w="100%"
+                                        h="auto"
+                                        objectFit="contain"
+                                        draggable={false}
+                                    />
+                                    <Box p={6}>
+                                        <Heading size="md" mb={2} color="#0b1f3a">
+                                            {slide.title}
+                                        </Heading>
+                                        <Text fontSize="sm" color="#475569">
+                                            {slide.desc}
+                                        </Text>
+                                    </Box>
+                                </Box>
+                            ))}
+                        </Flex>
                     </Box>
-                ))}
-                </Flex>
-            </Box>
-        </Container>
+                </Box>
+            </Container>
+        </Box>
     );
 }

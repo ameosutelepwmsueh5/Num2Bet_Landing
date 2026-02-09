@@ -1,7 +1,7 @@
 export const faqs = [
   {
-    q: "What is Num2Bet?",
-    a: "Num2Bet is a transparent, fair, and rewarding betting platform where you can participate in lottery-style draws with fast 30-second periods and high winning rates.",
+    q: "What is NumBanco?",
+    a: "NumBanco is a transparent, fair, and rewarding betting platform where you can participate in lottery-style draws with fast 30-second periods and high winning rates.",
   },
   {
     q: "How do I get started?",

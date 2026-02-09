@@ -43,6 +43,7 @@ export default function ScrollToTop() {
         <Image
             src={toTop}
             alt="Scroll to top"
+            loading="eager"
             transition="all 0.25s ease"
         />
         </Box>

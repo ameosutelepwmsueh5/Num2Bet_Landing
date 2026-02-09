@@ -8,15 +8,24 @@ import {
     Container,
     Heading,
     Image,
+    SimpleGrid,
+    IconButton,
 } from "@chakra-ui/react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { concepts } from "../../../variables/Concepts.js";
+import { concepts } from "variables/Concepts";
 
 const MotionBox = motion(Box);
 
 export default function Concept() {
-    const [index, setIndex] = useState(0);
+    const dispatch = useDispatch();
+    const index = useSelector((state) => state.betWins?.index);
     const [direction, setDirection] = useState(1);
+
+    function setIndex(newIndex) {
+        dispatch({ type: "SET_SLIDE_INDEX", payload: newIndex });
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -25,7 +34,7 @@ export default function Concept() {
             setIndex(tempIndex);
         }, 10000);
         return () => clearInterval(interval);
-    }, [index]);
+    }, [concepts.length, index]);
 
     const handleNext = () => {
         setDirection(1);
@@ -58,135 +67,158 @@ export default function Concept() {
         }),
     };
 
+    const topCurveH = 140;
+
     return (
-        <Container id="bet-concept" maxW="7xl" py={28}>
-            <Heading letterSpacing="widest" mb={4} color="#fff">
-                BETTING CONCEPT
-            </Heading>
+        <Box
+            bg="#000000"
+            color="white"
+            position="relative"
+            overflow="hidden"
+            pt={{ base: topCurveH + 32, md: topCurveH + 44 }}
+            // pb={{ base: -12, md: -20 }}
+            _before={{
+                content: '""',
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                height: `${topCurveH}px`,
+                // White curve "cut-in" over black background
+                background: "#ffffff",
+                // Invert curve direction: curve sits on TOP edge
+                clipPath: "ellipse(60% 75% at 50% 0%)",
+                pointerEvents: "none",
+                zIndex: 0,
+            }}
+        >
+            <Container id="bet-concept" maxW="7xl" position="relative" zIndex={1}>
+                <Heading letterSpacing="widest" mb={4} color="#fff">
+                    BETTING CONCEPT
+                </Heading>
 
-            <Flex
-                direction={{ base: "column-reverse", md: "row" }}
-                align="center"
-                gap={{ base: 8, md: 12 }}
-            >
-                {/* TEXT SECTION */}
-                <Box flex="1" position="relative">
-                    <Box
-                        position={{ base: "static", md: "relative" }}
-                        minH={{ base: "auto", md: "220px" }}
-                        overflow={{ base: "visible", md: "hidden" }}
-                    >
-                        <AnimatePresence custom={direction} mode="wait">
-                            <MotionBox
-                                key={index}
-                                custom={direction}
-                                variants={slideVariants}
-                                initial="enter"
-                                animate="center"
-                                exit="exit"
-                                position={{ base: "relative", md: "absolute" }}
-                                top={0}
-                                left={0}
-                                w="100%"
-                            >
-                                <Stack
-                                    spacing={6}
-                                    maxW="xl"
-                                    w="100%"
-                                    textAlign={{ base: "center", md: "left" }}
-                                >
-                                    <Heading fontSize="4xl" color="cyan.400" lineHeight={1.2}>
-                                        {active.title}
-                                    </Heading>
-
-                                    <Text fontSize="md" opacity={0.85} lineHeight={1.9} color="whiteAlpha.900">
-                                        {active.desc}
-                                    </Text>
-                                </Stack>
-                            </MotionBox>
-                        </AnimatePresence>
-                    </Box>
-                </Box>
-
-                {/* IMAGE SECTION */}
-                <Box
-                    flex="1"
-                    w="100%"
-                    maxW={{ base: "100%", md: "490px" }}
-                    bg="#001d3d"
-                    borderRadius="2xl"
-                    p={1}
-                    boxShadow="
-                        0 0 25px rgba(0, 255, 255, 0.55),
-                        0 0 60px rgba(0, 255, 255, 0.35),
-                        0 0 120px rgba(0, 255, 255, 0.25),
-                        0 20px 40px rgba(0, 0, 0, 0.6),
-                        inset 0 0 25px rgba(0, 255, 255, 0.15)
-                    "
+                <Flex
+                    direction={{ base: "column-reverse", md: "row" }}
+                    align="center"
+                    gap={{ base: 8, md: 12 }}
                 >
+                    {/* TEXT SECTION */}
+                    <Box flex="1" position="relative">
+                        <Box
+                            position={{ base: "static", md: "relative" }}
+                            minH={{ base: "auto", md: "220px" }}
+                            overflow={{ base: "visible", md: "hidden" }}
+                        >
+                            <AnimatePresence custom={direction} mode="wait">
+                                <MotionBox
+                                    key={index}
+                                    custom={direction}
+                                    variants={slideVariants}
+                                    initial="enter"
+                                    animate="center"
+                                    exit="exit"
+                                    position={{ base: "relative", md: "absolute" }}
+                                    top={0}
+                                    left={0}
+                                    w="100%"
+                                >
+                                    <Stack
+                                        spacing={6}
+                                        maxW="xl"
+                                        w="100%"
+                                        textAlign={{ base: "center", md: "left" }}
+                                    >
+                                        <Heading fontSize="4xl" color="#00d4ff" lineHeight={1.2}>
+                                            {active.title}
+                                        </Heading>
+
+                                        <Text fontSize="md" opacity={0.9} lineHeight={1.9} color="whiteAlpha.800">
+                                            {active.desc}
+                                        </Text>
+                                    </Stack>
+                                </MotionBox>
+                            </AnimatePresence>
+                        </Box>
+                    </Box>
+
+                    {/* IMAGE SECTION */}
                     <Box
-                        position="relative"
-                        h={{ base: "240px", sm: "280px", md: "320px" }}
-                        overflow="hidden"
+                        flex="1"
+                        w="100%"
+                        maxW={{ base: "100%", md: "490px" }}
+                        bg="#071019"
+                        borderRadius="2xl"
+                        p={1}
+                        border="1px solid rgba(255, 255, 255, 0.18)"
+                        boxShadow="
+                            0 0 18px rgba(255, 255, 255, 0.18),
+                            0 0 48px rgba(255, 255, 255, 0.12),
+                            0 28px 50px rgba(0, 0, 0, 0.8)
+                        "
                     >
-                        <AnimatePresence custom={direction} mode="wait">
-                            <MotionBox
-                                key={active.image}
-                                custom={direction}
-                                variants={slideVariants}
-                                initial="enter"
-                                animate={{ ...slideVariants.center }}
-                                exit="exit"
-                                position="absolute"
-                                top={0}
-                                left={0}
-                                w="100%"
-                                h="100%"
-                            >
-                                <Image
-                                    src={active.image}
-                                    alt="Lottery betting concept illustration"
+                        <Box
+                            position="relative"
+                            h={{ base: "240px", sm: "280px", md: "320px" }}
+                            overflow="hidden"
+                        borderRadius="2xl"
+                        >
+                            <AnimatePresence custom={direction} mode="wait">
+                                <MotionBox
+                                    key={active.image}
+                                    custom={direction}
+                                    variants={slideVariants}
+                                    initial="enter"
+                                    animate={{ ...slideVariants.center }}
+                                    exit="exit"
+                                    position="absolute"
+                                    top={0}
+                                    left={0}
                                     w="100%"
                                     h="100%"
-                                    objectFit="contain"
-                                    draggable={true}
-                                />
-                            </MotionBox>
-                        </AnimatePresence>
+                                >
+                                    <Image
+                                        src={active.image}
+                                        alt="Lottery betting concept illustration"
+                                        loading="eager"
+                                        w="100%"
+                                        h="100%"
+                                        objectFit="contain"
+                                        borderRadius="2xl"
+                                        draggable={true}
+                                    />
+                                </MotionBox>
+                            </AnimatePresence>
+                        </Box>
                     </Box>
-                </Box>
-            </Flex>
+                </Flex>
 
-            {/* CONTROLS */}
-            <Flex justify="center" gap={6} pt={6}>
-                <Button
-                    onClick={handlePrev}
-                    w="48px"
-                    h="48px"
-                    borderRadius="full"
-                    bg="rgba(255,255,255,0.1)"
-                    backdropFilter="blur(12px)"
-                    fontSize="lg"
-                    _hover={{ bg: "cyan.400Alpha.300", transform: "translateY(-2px)" }}
-                    transition="all 0.2s ease"
-                >
-                    ‹
-                </Button>
+                {/* CONTROLS */}
+                <Flex justify="center" gap={6} pt={6}>
+                    <IconButton
+                        aria-label="Previous"
+                        icon={<ChevronLeftIcon boxSize={6} />}
+                        onClick={handlePrev}
+                        bg="rgba(0,0,0,0.18)"
+                        color="white"
+                        border="1px solid rgba(255,255,255,0.35)"
+                        _hover={{ bg: "rgba(0,0,0,0.28)" }}
+                        rounded="full"
+                        boxSize="48px"
+                    />
+                    <IconButton
+                        aria-label="Next"
+                        icon={<ChevronRightIcon boxSize={6} />}
+                        onClick={handleNext}
+                        bg="rgba(0,0,0,0.18)"
+                        color="white"
+                        border="1px solid rgba(255,255,255,0.35)"
+                        _hover={{ bg: "rgba(0,0,0,0.28)" }}
+                        rounded="full"
+                        boxSize="48px"
+                    />
+                </Flex>
 
-                <Button
-                    onClick={handleNext}
-                    w="48px"
-                    h="48px"
-                    borderRadius="full"                    
-                    bg="rgba(255,255,255,0.1)"
-                    backdropFilter="blur(12px)"
-                    fontSize="lg"
-                    _hover={{ bg: "cyan.400Alpha.300", transform: "translateY(-2px)" }}
-                    transition="all 0.2s ease"
-                >
-                    ›
-                </Button>
-            </Flex>
-        </Container>
+            </Container>
+        </Box>
     );
 }
