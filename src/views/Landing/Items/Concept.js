@@ -3,12 +3,10 @@ import {
     Box,
     Flex,
     Text,
-    Button,
     Stack,
     Container,
     Heading,
     Image,
-    SimpleGrid,
     IconButton,
 } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
@@ -20,7 +18,7 @@ const MotionBox = motion(Box);
 
 export default function Concept() {
     const dispatch = useDispatch();
-    const index = useSelector((state) => state.betWins?.index);
+    const index = useSelector((state) => state.landing?.slideIndex);
     const [direction, setDirection] = useState(1);
 
     function setIndex(newIndex) {
@@ -37,7 +35,7 @@ export default function Concept() {
     }, [concepts.length, index]);
 
     const handleNext = () => {
-        setDirection(1);
+        setDirection(1);    
         const tempIndex = (index + 1) % concepts.length;
         setIndex(tempIndex);
     };

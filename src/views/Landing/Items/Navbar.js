@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 
 import logo from "assets/img/logo_Landing.png";
-import GTranslate from "../../../components/Gtranslate";
 
 export default function Navbar() {
     const dispatch = useDispatch();
@@ -195,7 +194,6 @@ export default function Navbar() {
                         </Box>
                     </Box>
                 </Box>
-                <GTranslate />
                 <Button
                     as={NavLink}
                     to="/auth/signin"
