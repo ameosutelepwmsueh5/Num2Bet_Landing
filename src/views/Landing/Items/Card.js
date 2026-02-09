@@ -17,13 +17,14 @@ export default function Card() {
     const topCurveH = 180;
 
     return (
-        <Box py={{ base: 8, md: 10 }}
+        <Box as="section" py={{ base: 8, md: 10 }}
             bg="white"
             color="white"
             position="relative"
             overflow="hidden"
             pt={{ base: topCurveH + 16, md: topCurveH + 32 }}
             px={{ base: 5, md: 8, lg: 12 }}
+            aria-labelledby="highlights-heading"
             // pb={{ base: 72, md: 88 }}
             _before={{
                 content: '""',
@@ -41,7 +42,7 @@ export default function Card() {
             }}
         >
             <VStack spacing={3} mb={6}>
-                <Text fontSize="xl" color="white" fontWeight="700">
+                <Text as="h2" id="highlights-heading" fontSize="xl" color="white" fontWeight="700">
                     Platform Highlights
                 </Text>
                 <Box w="64px" h="3px" bg="#00d4ff" borderRadius="full" />
@@ -51,6 +52,7 @@ export default function Card() {
                 {cards.map((item) => (
                     <Box
                         key={item.title}
+                        as="article"
                         bg="#0b1116"
                         borderRadius="lg"
                         p={5}
@@ -59,16 +61,16 @@ export default function Card() {
                         boxShadow="0 12px 22px rgba(0,0,0,0.35)"
                         cursor="pointer"
                     >
-                        <Text fontSize="xs" color="whiteAlpha.700" letterSpacing="widest" mb={2}>
+                        <Text as="span" fontSize="xs" color="whiteAlpha.700" letterSpacing="widest" mb={2}>
                             numbanco.io
                         </Text>
-                        <Box color="#00d4ff" mb={2}>
+                        <Box color="#00d4ff" mb={2} aria-hidden="true">
                             <item.icon style={{ fontSize: 28 }} />
                         </Box>
-                        <Text fontSize="sm" color="#00d4ff" fontWeight="700" mb={2}>
+                        <Text as="h3" fontSize="sm" color="#00d4ff" fontWeight="700" mb={2}>
                             {item.title}
                         </Text>
-                        <Text fontSize="xs" color="whiteAlpha.800">
+                        <Text as="p" fontSize="xs" color="whiteAlpha.800">
                             {item.desc}
                         </Text>
                     </Box>

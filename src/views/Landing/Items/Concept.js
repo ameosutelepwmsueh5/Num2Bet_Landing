@@ -90,8 +90,8 @@ export default function Concept() {
                 zIndex: 0,
             }}
         >
-            <Container id="bet-concept" maxW="7xl" position="relative" zIndex={1}>
-                <Heading letterSpacing="widest" mb={4} color="#fff">
+            <Container id="bet-concept" as="section" aria-labelledby="concept-heading" maxW="7xl" position="relative" zIndex={1}>
+                <Heading as="h2" id="concept-heading" letterSpacing="widest" mb={4} color="#fff">
                     BETTING CONCEPT
                 </Heading>
 
@@ -126,11 +126,11 @@ export default function Concept() {
                                         w="100%"
                                         textAlign={{ base: "center", md: "left" }}
                                     >
-                                        <Heading fontSize="4xl" color="#00d4ff" lineHeight={1.2}>
+                                        <Heading as="h3" fontSize="4xl" color="#00d4ff" lineHeight={1.2}>
                                             {active.title}
                                         </Heading>
 
-                                        <Text fontSize="md" opacity={0.9} lineHeight={1.9} color="whiteAlpha.800">
+                                        <Text as="p" fontSize="md" opacity={0.9} lineHeight={1.9} color="whiteAlpha.800">
                                             {active.desc}
                                         </Text>
                                     </Stack>

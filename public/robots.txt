@@ -1,3 +1,21 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap location
+Sitemap: https://numbanco.io/sitemap.xml
+
+# Disallow admin and private areas (if any)
+Disallow: /auth/
+Disallow: /admin/
+Disallow: /api/
+
+# Allow common search engine bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

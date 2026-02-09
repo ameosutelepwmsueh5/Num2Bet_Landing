@@ -16,9 +16,9 @@ import { faqs } from 'variables/Faq';
 
 export default function FAQs() {
     return (
-        <Box bg="#ffffff">
+        <Box as="section" bg="#ffffff" aria-labelledby="faq-heading">
             <Container id="FAQs" maxW="6xl" py={24}>
-                <Heading mb={10} color="#0b1f3a">
+                <Heading as="h2" id="faq-heading" mb={10} color="#0b1f3a">
                     FREQUENTLY ASKED QUESTIONS
                 </Heading>
 

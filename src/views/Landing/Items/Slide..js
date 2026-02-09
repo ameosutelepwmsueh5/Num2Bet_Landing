@@ -73,11 +73,11 @@ export default function Slide() {
     }, []);
 
     return (
-        <Box bg="#ffffff">
+        <Box as="section" bg="#ffffff" aria-labelledby="features-heading">
             <Container maxW="7xl" py={20}>
                 {/* HEADER */}
                 <Flex justify="flex-start" align="center" mb={8}>
-                    <Heading color="#0b1f3a">Why Bet With NumBanco</Heading>
+                    <Heading as="h2" id="features-heading" color="#0b1f3a">Why Bet With NumBanco</Heading>
                 </Flex>
 
                 {/* SLIDER */}
@@ -166,6 +166,7 @@ export default function Slide() {
                             {slides.map((slide, i) => (
                                 <Box
                                     key={i}
+                                    as="article"
                                     w={`${slideWidth}px`}
                                     minW={`${slideWidth}px`}
                                     maxW={`${slideWidth}px`}
@@ -189,10 +190,10 @@ export default function Slide() {
                                         draggable={false}
                                     />
                                     <Box p={6}>
-                                        <Heading size="md" mb={2} color="#0b1f3a">
+                                        <Heading as="h3" size="md" mb={2} color="#0b1f3a">
                                             {slide.title}
                                         </Heading>
-                                        <Text fontSize="sm" color="#475569">
+                                        <Text as="p" fontSize="sm" color="#475569">
                                             {slide.desc}
                                         </Text>
                                     </Box>

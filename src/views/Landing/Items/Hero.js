@@ -86,6 +86,8 @@ export default function Hero() {
 
     return (
         <Container
+            as="section"
+            aria-label="Hero section"
             maxW="100vw"
             pt={{ base: 30, md: 36 }}
             pb={{ base: 24, md: 30 }}
@@ -105,6 +107,7 @@ export default function Hero() {
             >
                 {/* Text block — same height as image so bottoms align */}
                 <Box
+                    as="article"
                     flex="1"
                     minW={{ base: "100%", md: "280px" }}
                     maxW="xl"
@@ -133,10 +136,11 @@ export default function Hero() {
                             }}
                         >
                             <Stack spacing={6} align={{ base: "center", md: "flex-start" }} textAlign={{ base: "center", md: "left" }} flex="1" justify="center">
-                                <Text letterSpacing="widest" fontSize="sm" opacity={0.9} color="whiteAlpha.900">
+                                <Text as="p" letterSpacing="widest" fontSize="sm" opacity={0.9} color="whiteAlpha.900">
                                     {segment.label}
                                 </Text>
                                 <Heading
+                                    as="h1"
                                     fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
                                     lineHeight={1.1}
                                     color="white"
@@ -144,7 +148,7 @@ export default function Hero() {
                                 >
                                     {segment.heading}
                                 </Heading>
-                                <Text opacity={0.9} color="whiteAlpha.800">{segment.subtext}</Text>
+                                <Text as="p" opacity={0.9} color="whiteAlpha.800">{segment.subtext}</Text>
                                 <Flex gap={4} flexWrap="wrap" justify={{ base: "center", md: "flex-start" }} mt="auto">
                                     <Button
                                         bg="#00d4ff"

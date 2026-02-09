@@ -23,12 +23,12 @@ export default function Price() {
     ];
     
     return (
-        <Box bg="#000000">
+        <Box as="section" bg="#000000" aria-labelledby="pricing-heading">
         <Container id="Price" maxW="7xl" py={24}>
             {/* PRICE SECTION */}
             <Stack spacing={8}>
-                <Heading size="lg" color="white">Pricing</Heading>
-                <Text color="whiteAlpha.800">
+                <Heading as="h2" id="pricing-heading" size="lg" color="white">Pricing</Heading>
+                <Text as="p" color="whiteAlpha.800">
                     The service offers three levels: Free, Plus, and Pro.
                 </Text>
 

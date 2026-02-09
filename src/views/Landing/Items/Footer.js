@@ -24,6 +24,8 @@ export default function Footer() {
     const dispatch = useDispatch();
     return (
         <Box
+            as="footer"
+            id="Footer"
             bg="linear-gradient(180deg, #0b0f14 0%, #05070a 100%)"
             color="white"
             // pt={20} 
@@ -47,7 +49,7 @@ export default function Footer() {
                 zIndex: 0,
             }}
         >
-            <Container id="Footer" maxW="7xl">
+            <Container maxW="7xl">
                 <SimpleGrid columns={{ base: 1 }} spacing={10}>
                     {/* RIGHT SIDE — responsive sections */}
                     <SimpleGrid
